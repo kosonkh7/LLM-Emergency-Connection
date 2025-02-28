@@ -1,21 +1,9 @@
 # LLM-Emergency-Recommendation
-LLM을 이용한 응급 상황 인식 및 응급실 연계 서비스
-
 본 서비스를 이용하기 위하여 별도의 API키를 요구합니다.
 - OPENAI API KEY
 - NAVER MAPs API KEY
 
-## Easy usage with Docker Image
-
-docker run -p 8080:8080 kosonkh7/aivle_mini7_6_spring:v1.2.0 (or latest)
-
-docker run -p 8000:8000 \
--e OPENAI_API_KEY=YOUR_OPENAI_API_KEY \
--e naver_client_id=YOUR_NAVER_CLIENT_ID \
--e naver_client_secret=YOUR_NAVER_CLIENT_SECRET \
-kosonkh7/aivle_mini7_6_fastapi:v1.2.0 (or latest)
-
-## Service Architecture
+# Service Architecture
 ![image](https://github.com/user-attachments/assets/b156c5fc-d682-46e4-86be-f4c33fec22c5)
 
 0. 입력: 응급 상황에서의 음성(.mp4), 해당 위치 좌표(위도, 경도)
@@ -25,13 +13,22 @@ kosonkh7/aivle_mini7_6_fastapi:v1.2.0 (or latest)
 - GPT 3.5(OpenAI API): Whisper로 변환한 텍스트를 요약 및 키워드 추출.
 
 2. 응급 상황 등급 분류
-- KLUE BERT: 한국어(KLUE Dataset)로 사전학습 된 Bert 모델.
+- KLUE BERT: 한국어(KLUE Dataset)로 사전학습 된 Bert 모델.\
 위 모델을 "자체 제작한 KTAS 5단계 응급 분류 기준 텍스트 데이터"를 기반으로 Fine-Tuning 하여, KTAS 등급 분류 역할.
 
 3. 출력(응급실 연계, 추천)
-- KTAS 1~3단계(중증 이상 응급 상황): 위치 좌표 기준으로 SQLite DB에 저장된 가까운 응급실 보유 병원과, 네이버 지도 API를 이용한 빠른 경로 반환
+- KTAS 1~3단계(중증 이상 응급 상황): 위치 좌표 기준 SQLite DB에 저장된 가까운 응급실 보유 병원과, 네이버 지도 API를 이용한 빠른 경로 반환
 - KTAS 4~5단계, 그외 (경증 및 미응급 상황): 안내 메세지 출력
 
-## Data Understanding
+# Easy usage with Docker Image
 
-## Modeling
+docker run -p 8080:8080 kosonkh7/aivle_mini7_6_spring:v1.2.0 (or latest)
+
+docker run -p 8000:8000 -e OPENAI_API_KEY=YOUR_OPENAI_API_KEY \
+-e naver_client_id=YOUR_NAVER_CLIENT_ID \
+-e naver_client_secret=YOUR_NAVER_CLIENT_SECRET \
+kosonkh7/aivle_mini7_6_fastapi:v1.2.0 (or latest)
+
+# Data Understanding
+
+
