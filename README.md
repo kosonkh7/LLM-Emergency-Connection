@@ -53,9 +53,12 @@ KTAS 구분 데이터(csv) 기준으로, 직접 제작 및 ChatGPT를 이용하�
 ### [Dataset for Emergency Room](https://www.data.go.kr/data/15000563/openapi.do)
 국가 공공데이터포털의 "국립중앙의료원_전국 응급의료기관 정보 조회 서비스" API 이용
 
+응급실 보유한 병원만 API 요청 후, 추천에 필요한 정보만 **SQLite**에 저장하여 응급실 정보 DB 구축
+
 ### Reference
 [Open AI / Whisper](https://openai.com/index/whisper/)
 [Open AI / GPT 3.5 turbo](https://platform.openai.com/docs/models/gpt-3-5-turbo)
 [KLUE/Bert-base](https://huggingface.co/klue/bert-base)
 [Naver Maps API](https://www.ncloud.com/product/applicationService/maps)
 [KTAS: 한국 응급환자 중증도 분류기준](https://www.law.go.kr/LSW//admRulLsInfoP.do?admRulId=85470&efYd=0#AJAX)
+[국립중앙의료원_전국 응급의료기관 정보 조회 서비스](https://www.data.go.kr/data/15000563/openapi.do)
