@@ -25,10 +25,10 @@
 - KTAS 4~5단계, 그외 (경증 및 미응급 상황): 안내 메세지 출력
 
 # Easy usage with Docker Image
-[Spring Boot]
+[Spring Boot] \
 docker run -p 8080:8080 kosonkh7/aivle_mini7_6_spring:v1.2.0 (or latest)
 
-[Emergency Recommendation with FastAPI]
+[Emergency Recommendation with FastAPI] \
 docker run -p 8000:8000 -e OPENAI_API_KEY=YOUR_OPENAI_API_KEY \
 -e naver_client_id=YOUR_NAVER_CLIENT_ID \
 -e naver_client_secret=YOUR_NAVER_CLIENT_SECRET \
