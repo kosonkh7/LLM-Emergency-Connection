@@ -32,11 +32,25 @@ docker run -p 8000:8000 -e OPENAI_API_KEY=YOUR_OPENAI_API_KEY \
 kosonkh7/aivle_mini7_6_fastapi:v1.2.0 (or latest)
 
 # Data Understanding
-
-
-
 ### [Why is proper classification of KTAS important?](https://www.law.go.kr/LSW//admRulLsInfoP.do?admRulId=85470&efYd=0#AJAX)
+![image](https://github.com/user-attachments/assets/59d6eb24-08b2-4364-b916-7d59262be4f3)
+
+[출처:중앙일보](https://www.joongang.co.kr/article/25174325)
+
+"응급실 1년 살던 환자, 쫓겨난뒤 두달만에 또 병상 꿰찬 꼼수" 
+
+응급실을 희망하는 비응급 환자로 인해, 정작 응급 상황에서 가용 공간, 담당 전문의 부족 현상 해소 필요성.
+
+### [KTAS: 한국 응급환자 중증도 분류기준](https://www.law.go.kr/LSW//admRulLsInfoP.do?admRulId=85470&efYd=0#AJAX)
+제5조(중증도 등급기준) 응급실 내원환자의 중증도 등급은 제4조에 의한 분류결과에 따라 다음 각 호와 같이 구분한다.  
+1. 중증응급환자 : 중증도 분류결과 1등급 및 2등급 
+2. 중증응급의심환자 : 중증도 분류결과 3등급 
+3. 경증응급환자 및 비응급환자 : 중증도 분류결과 4등급 및 5등급 
 
 ### [Text Dataset for Fine-Tuning](https://www.joongang.co.kr/article/25174325)
+KTAS 구분 데이터(csv) 기준으로, 직접 제작 및 ChatGPT를 이용하여\
+총 1,675개의 가상의 요약 텍스트 데이터를 자체 제작
 
 ### [Dataset for Emergency Room](https://www.data.go.kr/data/15000563/openapi.do)
+
+
