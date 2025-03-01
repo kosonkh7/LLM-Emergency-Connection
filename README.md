@@ -34,3 +34,9 @@ kosonkh7/aivle_mini7_6_fastapi:v1.2.0 (or latest)
 # Data Understanding
 
 
+
+### [Why is proper classification of KTAS important?](https://www.law.go.kr/LSW//admRulLsInfoP.do?admRulId=85470&efYd=0#AJAX)
+
+### [Text Dataset for Fine-Tuning](https://www.joongang.co.kr/article/25174325)
+
+### [Dataset for Emergency Room](https://www.data.go.kr/data/15000563/openapi.do)
