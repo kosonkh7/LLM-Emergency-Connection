@@ -12,7 +12,8 @@
 
 ### 1. 음성 인식 및 요약
 - Whisper(OpenAI API): 트랜스포머 기반의 자동 음성 인식(ASR) 시스템. 음성을 텍스트로 변환하는 역할.
-- GPT 3.5(OpenAI API): Whisper로 변환한 텍스트를 요약 및 키워드 추출.
+- GPT 3.5(OpenAI API): Whisper로 변환한 텍스트를 요약 및 키워드 추출. \
+  효과적으로 요약 및 키워드 추출 할 수 있도록 적절한 system_role 설정.
 
 ### 2. 응급 상황 등급 분류
 - KLUE BERT: 한국어(KLUE Dataset)로 사전학습 된 Bert 모델.\
@@ -35,9 +36,7 @@ kosonkh7/aivle_mini7_6_fastapi:v1.2.0 (or latest)
 ### [Why is proper classification of KTAS important?](https://www.law.go.kr/LSW//admRulLsInfoP.do?admRulId=85470&efYd=0#AJAX)
 ![image](https://github.com/user-attachments/assets/59d6eb24-08b2-4364-b916-7d59262be4f3)
 
-[출처:중앙일보](https://www.joongang.co.kr/article/25174325)
-
-"응급실 1년 살던 환자, 쫓겨난뒤 두달만에 또 병상 꿰찬 꼼수" 
+"응급실 1년 살던 환자, 쫓겨난뒤 두달만에 또 병상 꿰찬 꼼수" [출처:중앙일보](https://www.joongang.co.kr/article/25174325)
 
 응급실을 희망하는 비응급 환자로 인해, 정작 응급 상황에서 가용 공간, 담당 전문의 부족 현상 해소 필요성.
 
@@ -52,5 +51,11 @@ KTAS 구분 데이터(csv) 기준으로, 직접 제작 및 ChatGPT를 이용하�
 총 1,675개의 가상의 요약 텍스트 데이터를 자체 제작
 
 ### [Dataset for Emergency Room](https://www.data.go.kr/data/15000563/openapi.do)
+국가 공공데이터포털의 "국립중앙의료원_전국 응급의료기관 정보 조회 서비스" API 이용
 
-
+### Reference
+[Open AI / Whisper](https://openai.com/index/whisper/)
+[Open AI / GPT 3.5 turbo](https://platform.openai.com/docs/models/gpt-3-5-turbo)
+[KLUE/Bert-base](https://huggingface.co/klue/bert-base)
+[Naver Maps API](https://www.ncloud.com/product/applicationService/maps)
+[KTAS: 한국 응급환자 중증도 분류기준](https://www.law.go.kr/LSW//admRulLsInfoP.do?admRulId=85470&efYd=0#AJAX)
