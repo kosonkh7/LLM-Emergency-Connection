@@ -3,7 +3,7 @@
 - OPENAI API KEY
 - NAVER MAPs API KEY
 
-# Service Architecture
+# System Design
 * 전체 웹서비스가 아닌, LLM을 이용한 응급실 연계 서비스 구조에 대한 요약 이미지.
 ![image](https://github.com/user-attachments/assets/b156c5fc-d682-46e4-86be-f4c33fec22c5)
 
