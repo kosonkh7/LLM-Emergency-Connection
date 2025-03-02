@@ -1,4 +1,4 @@
-# LLM-Emergency-Recommendation
+# LLM-Powered Automated Emergency Room Connection Service
 본 서비스를 이용하기 위하여 별도의 API키를 요구합니다.
 - OPENAI API KEY
 - NAVER MAPs API KEY
