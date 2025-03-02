@@ -21,14 +21,14 @@
 위 모델을 "자체 제작한 KTAS 5단계 응급 분류 기준 텍스트 데이터"를 기반으로 Fine-Tuning 하여, KTAS 등급 분류 역할.
 
 ### 3. 출력(응급실 연계, 추천)
-- KTAS 1~3단계(중증 이상): 위치 좌표 기준 **SQLite** DB에 저장된 가까운 응급실 보유 병원과, **네이버 지도 API**를 이용한 빠른 경로 반환
-- KTAS 4~5단계, 그외 (경증 및 미응급 상황): 안내 메세지 출력
+- KTAS 1~3단계(중증 이상): 위치 좌표 기준 **SQLite** DB에 저장된 가까운 응급실 보유 병원과, **네이버 지도 API**를 이용한 빠른 경로 반환.
+- KTAS 4~5단계, 그외 (경증 및 미응급 상황): 안내 메세지 출력.
 
 # Easy usage with Docker Image
 **[Spring Boot]** \
 docker run -p 8080:8080 kosonkh7/aivle_mini7_6_spring:v1.2.0 (or latest)
 
-**[Emergency Recommendation with FastAPI]** \
+**[Emergency Connection with FastAPI]** \
 docker run -p 8000:8000 -e OPENAI_API_KEY=YOUR_OPENAI_API_KEY \
 -e naver_client_id=YOUR_NAVER_CLIENT_ID \
 -e naver_client_secret=YOUR_NAVER_CLIENT_SECRET \
@@ -50,12 +50,12 @@ kosonkh7/aivle_mini7_6_fastapi:v1.2.0 (or latest)
 
 ### [Text Dataset for Fine-Tuning](https://www.joongang.co.kr/article/25174325)
 KTAS 구분 데이터(csv) 기준으로, 직접 제작 및 ChatGPT를 이용하여\
-총 1,675개의 가상의 응급 상황 요약 텍스트 데이터를 자체 제작
+총 1,675개의 가상의 응급 상황 요약 텍스트 데이터셋 자체 제작.
 
 ### [Dataset for Emergency Room](https://www.data.go.kr/data/15000563/openapi.do)
-국가 공공데이터포털의 "국립중앙의료원_전국 응급의료기관 정보 조회 서비스" API 이용
+국가 공공데이터포털의 "국립중앙의료원_전국 응급의료기관 정보 조회 서비스" API 이용.
 
-응급실 보유한 병원만 API 요청 후, 추천에 필요한 정보만 **SQLite**에 저장하여 응급실 정보 DB 구축
+응급실 보유한 병원만 API 요청 후, 추천에 필요한 정보만 **SQLite**에 저장하여 응급실 정보 DB 구축.
 
 # Reference
 - [Open AI / Whisper](https://openai.com/index/whisper/)
