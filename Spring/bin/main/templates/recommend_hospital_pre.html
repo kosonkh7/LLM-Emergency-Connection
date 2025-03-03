@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Recommended Hospitals</title>
+</head>
+<body>
+<h1>Recommended Hospitals</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Hospital Name</th>
+        <th>Address</th>
+        <th>Emergency Type</th>
+        <th>Phone 1</th>
+        <th>Phone 3</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Distance (km)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 병원 목록 반복 -->
+    <tr th:each="hospital, iterStat : ${hospitalList.recommend}">
+        <td th:text="${iterStat.index + 1}"></td>
+        <td th:text="${hospital.hospitalName}"></td>
+        <td th:text="${hospital.address}"></td>
+        <td th:text="${hospital.emergencyMedicalInstitutionType}"></td>
+        <td th:text="${hospital.phoneNumber1}"></td>
+        <td th:text="${hospital.phoneNumber3}"></td>
+        <td th:text="${hospital.latitude}"></td>
+        <td th:text="${hospital.longitude}"></td>
+        <td th:text="${hospital.distance} + ' km'"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

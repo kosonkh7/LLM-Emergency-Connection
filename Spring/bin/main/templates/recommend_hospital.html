@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="common/header :: header"></div>
+<head>
+    <title>Recommended Hospitals</title>
+    <script type="text/javascript"
+            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=9kppwfj8gs"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            /*align-items: center;*/
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        .content-container {
+            width: 80%; /* 공통 너비 설정 */
+            margin: 0 auto;
+        }
+
+        table {
+            margin: 20px 0;
+            border-collapse: collapse;
+            width: 100%; /* 부모의 너비에 맞춤 */
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .markerBox {
+            padding-left: 25px;
+            position: relative;
+            width: 85px;
+            height: 30px;
+            font-size: 5px;
+            background-color: yellow;
+            border-radius: 35px;
+        }
+
+        #container_map {
+            margin: 20px 0;
+            width: 100%; /* 부모의 너비에 맞춤 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #container_map > div {
+            margin: 10px 0;
+            width: 100%; /* 맵의 너비도 부모에 맞춤 */
+            height: 800px; /* 고정 높이 설정 */
+        }
+    </style>
+</head>
+<body>
+<h1>Recommended Hospitals</h1>
+<div class="content-container">
+    <!-- 테이블 -->
+    <table id="table1" class="table table-dark table-hover align-middle" border="1">
+        <thead>
+        <tr class="table-primary">
+            <th>#</th>
+            <th>Hospital Name</th>
+            <th>Address</th>
+            <th>Emergency Type</th>
+            <th>Phone 1</th>
+            <th>Phone 3</th>
+            <th>Distance (km)</th>
+        </tr>
+        </thead>
+        <tbody class="able-group-divider">
+        <!-- 병원 목록 반복 -->
+        <tr th:each="hospital, iterStat : ${hospitalList.recommend}" th:id="table+${iterStat.index + 1}" th:onclick="click[[${iterStat.index + 1}]]()">
+            <td th:text="${iterStat.index + 1}"></td>
+            <td th:text="${hospital.hospitalName}"></td>
+            <td th:text="${hospital.address}"></td>
+            <td th:text="${hospital.emergencyMedicalInstitutionType}"></td>
+            <td th:text="${hospital.phoneNumber1}"></td>
+            <td th:text="${hospital.phoneNumber3}"></td>
+            <td th:text="${hospital.distance} + ' km'"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <hr class="border border-primary border-3 opacity-75">
+
+    <!-- 맵 -->
+    <div id="container_map" th:each="hospital, iterstat: ${hospitalList.recommend}">
+        <div th:id="map+${iterstat.index + 1}"></div>
+    </div>
+
+</div>
+
+<hr class="border border-primary border-3 opacity-25" style="color">
+<script th:inline="javascript">
+    var map1 = document.getElementById('map1');
+    var map2 = document.getElementById('map2');
+    var map3 = document.getElementById('map3');
+
+    var data = /*[[${hospitalList}]]*/;
+
+    var latitude = /*[[${param.latitude}]]*/; latitude = parseFloat(latitude[0]);
+    var longitude = /*[[${param.longitude}]]*/; longitude = parseFloat(longitude[0]);
+
+    console.log(latitude);
+
+    for (var i=0; i < 3; i++) {
+        var lat = data.recommend[i].latitude;
+        var longi = data.recommend[i].longitude;
+        var center_lat = (latitude + lat) / 2;
+        var center_long = (longitude + longi) / 2;
+
+        var map = new naver.maps.Map("map" + (i + 1), {
+            center: new naver.maps.LatLng(center_lat, center_long),
+            zoom: 15
+        });
+
+        var marker1 = new naver.maps.Marker({
+            position: new naver.maps.LatLng(latitude, longitude),
+            map: map,
+        });
+
+        var marker2 = new naver.maps.Marker({
+            position: new naver.maps.LatLng(lat, longi),
+            map: map,
+        });
+
+        var points = data.recommend[i].points;
+        var polyPoints = [];
+        for (let coords of points) {
+            polyPoints.push(new naver.maps.LatLng(coords[1], coords[0]));
+        }
+
+        var polyline = new naver.maps.Polyline({
+            map: map,
+            path: polyPoints
+        });
+    }
+
+    map2.style.display = "none";
+    map3.style.display = "none";
+
+    function click1() {
+        map1.style.display = "";
+        map2.style.display = "none";
+        map3.style.display = "none";
+    }
+
+    function click2() {
+        map1.style.display = "none";
+        map2.style.display = "";
+        map3.style.display = "none";
+    }
+
+    function click3() {
+        map1.style.display = "none";
+        map2.style.display = "none";
+        map3.style.display = "";
+    }
+</script>
+
+<div th:replace="common/footer :: footer"></div>
+</body>
+</html>
