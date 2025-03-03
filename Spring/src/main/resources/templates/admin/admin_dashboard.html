@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <style>
+    /* 전체 페이지 스타일 */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      height: 100vh;
+      background-color: #ecf0f1;
+    }
+
+    /* 왼쪽 사이드바 스타일 */
+    .sidebar {
+      background-color: #2c3e50;
+      color: white;
+      width: 250px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      margin: 10px 0;
+    }
+
+    .sidebar ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.5rem;
+    }
+
+    .sidebar ul li a:hover {
+      text-decoration: underline;
+    }
+
+    /* 메인 콘텐츠 스타일 */
+    .main-content {
+      flex-grow: 1;
+      padding: 40px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .main-content h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px; /* 제목 아래 간격 */
+    }
+
+    .chart-legend {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      font-size: 1.5rem;
+      margin-bottom: 30px; /* 범례와 차트 간격 */
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .legend-color {
+      width: 25px;
+      height: 25px;
+      display: inline-block;
+      border: 1px solid #ccc;
+    }
+
+    .chart-container {
+      width: 700px;
+      height: 700px;
+    }
+
+    canvas {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  </style>
+</head>
+<body>
+<!-- 왼쪽 사이드바 -->
+<div class="sidebar">
+  <h2>Admin</h2>
+  <ul>
+    <li><a href="1.html">서울</a></li>
+    <li><a href="2.html">경기</a></li>
+    <li><a href="3.html">인천</a></li>
+    <li><a href="4.html">강원도</a></li>
+    <li><a href="5.html">대전</a></li>
+    <li><a href="6.html">전라남도</a></li>
+    <li><a href="7.html">전라북도</a></li>
+    <li><a href="8.html">광주</a></li>
+    <li><a href="9.html">경상남도</a></li>
+    <li><a href="10.html">경상북도</a></li>
+    <li><a href="11.html">부산</a></li>
+    <li><a href="12.html">제주</a></li>
+    <li><a href="13.html">응급1급</a></li>
+    <li><a href="14.html">응급2급</a></li>
+    <li><a href="15.html">응급3급</a></li>
+    <li><a href="16.html">응급4급</a></li>
+    <li><a href="17.html">응급5급</a></li>
+    <li><a href="18.html">장난전화</a></li>
+  </ul>
+</div>
+
+<!-- 메인 콘텐츠 -->
+<div class="main-content">
+  <h1>금일 응급환자는 총 <strong>**명</strong>입니다.</h1>
+  <div class="chart-legend">
+    <div class="legend-item">
+      <div class="legend-color" style="background-color: #ff6384;"></div>1급
+    </div>
+    <div class="legend-item">
+      <div class="legend-color" style="background-color: #ff9f40;"></div>2급
+    </div>
+    <div class="legend-item">
+      <div class="legend-color" style="background-color: #ffcd56;"></div>3급
+    </div>
+    <div class="legend-item">
+      <div class="legend-color" style="background-color: #4bc0c0;"></div>4급
+    </div>
+    <div class="legend-item">
+      <div class="legend-color" style="background-color: #36a2eb;"></div>5급
+    </div>
+  </div>
+  <div class="chart-container">
+    <canvas id="emergencyChart"></canvas>
+  </div>
+</div>
+
+<!-- 차트.js 스크립트 -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('emergencyChart').getContext('2d');
+  const emergencyChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ['1급', '2급', '3급', '4급', '5급'],
+      datasets: [{
+        data: [10, 20, 30, 25, 15],
+        backgroundColor: [
+          '#ff6384',
+          '#ff9f40',
+          '#ffcd56',
+          '#4bc0c0',
+          '#36a2eb'
+        ]
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false
+        },
+      }
+    }
+  });
+</script>
+</body>
+</html>

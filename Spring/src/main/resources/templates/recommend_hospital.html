@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="common/header :: header"></div>
+<head>
+    <title>Recommended Hospitals</title>
+    <script type="text/javascript"
+            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=9kppwfj8gs"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            /*align-items: center;*/
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        .content-container {
+            width: 80%; /* 공통 너비 설정 */
+            margin: 0 auto;
+        }
+
+        table {
+            margin: 20px 0;
+            border-collapse: collapse;
+            width: 100%; /* 부모의 너비에 맞춤 */
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .markerBox {
+            padding-left: 25px;
+            position: relative;
+            width: 85px;
+            height: 30px;
+            font-size: 5px;
+            background-color: yellow;
+            border-radius: 35px;
+        }
+
+        #container_map {
+            margin: 20px 0;
+            width: 100%; /* 부모의 너비에 맞춤 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #container_map > div {
+            margin: 10px 0;
+            width: 100%; /* 맵의 너비도 부모에 맞춤 */
+            height: 800px; /* 고정 높이 설정 */
+        }
+    </style>
+</head>
+<body>
+<h1>Recommended Hospitals</h1>
+
+<div>
+    <p th:if="${message}" th:text="${message}"></p>
+</div>
+
+<div th:if="${hospitalList}">
+    <div class="content-container">
+        <!-- 예외 처리코드 -->
+        <!-- 테이블 -->
+        <table id="table1" class="table table-dark table-hover align-middle" border="1">
+            <thead>
+            <tr class="table-primary">
+                <th>#</th>
+                <th>Hospital Name</th>
+                <th>Address</th>
+                <th>Emergency Type</th>
+                <th>Phone 1</th>
+                <th>Phone 3</th>
+                <th>Distance (km)</th>
+                <th>Time (min)</th>
+            </tr>
+            </thead>
+            <tbody class="able-group-divider">
+            <!-- 병원 목록 반복 -->
+            <tr th:each="hospital, iterStat : ${hospitalList.recommend}" th:id="table+${iterStat.index + 1}" th:onclick="mapClick([[${iterStat.index + 1}]])">
+                <td th:text="${iterStat.index + 1}"></td>
+                <td th:text="${hospital.hospitalName}"></td>
+                <td th:text="${hospital.address}"></td>
+                <td th:text="${hospital.emergencyMedicalInstitutionType}"></td>
+                <td th:text="${hospital.phoneNumber1}"></td>
+                <td th:text="${hospital.phoneNumber3}"></td>
+                <td th:text="${hospital.distance} + ' km'"></td>
+                <td th:text="${hospital.time} + ' min'"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <hr class="border border-primary border-3 opacity-75">
+
+        <!-- 맵 -->
+        <div id="container_map" th:each="hospital, iterstat: ${hospitalList.recommend}">
+            <div th:id="map + ${iterstat.index + 1}" style="display: none;"></div>
+        </div>
+
+    </div>
+</div>
+
+<hr class="border border-primary border-3 opacity-25" style="color">
+<script th:inline="javascript">
+    // map에 대한 가변값을 줘야함.
+    let markerList = new Array();
+    let infoWindows = new Array();
+    let mapList = new Array();
+    let dataSize;
+    $(function() {
+        var data = /*[[${hospitalList}]]*/;
+
+        var latitude = /*[[${param.latitude}]]*/; latitude = parseFloat(latitude[0]);
+        var longitude = /*[[${param.longitude}]]*/; longitude = parseFloat(longitude[0]);
+
+        dataSize = data.recommend.length;
+
+
+
+        // 각각 지도 순회하면서 마커 만들기.
+        for (var i = 0 ; i < dataSize; i++ ) {
+            const curData = data.recommend[i];
+            var lat = curData.latitude;
+            var longi = curData.longitude;
+
+            var center_lat = (latitude + lat) / 2;
+            var center_long = (longitude + longi) / 2;
+
+            // 현 위치 마커 생성.
+            var newMarker = new naver.maps.Marker({
+                    position: new naver.maps.LatLng(latitude, longitude),
+                    map: map
+            });
+
+            var map = new naver.maps.Map("map" + (i + 1), {
+                center: new naver.maps.LatLng(center_lat, center_long),
+                zoom: 14
+            });
+
+            mapList.push(map);
+
+            // 목적지 마커 생성.
+
+            var marker = new naver.maps.Marker({
+                position: new naver.maps.LatLng(lat, longi),
+                map: map
+            });
+
+            var address = curData.address
+            var hospitalName = curData.hospitalName
+            var emerType = curData.emergencyMedicalInstitutionType
+            var phoneNumber = curData.phoneNumber1;
+            var time = curData.time;
+
+            // 목적지 마커 담기.
+            markerList.push(marker);
+
+
+            // 목적지 정보창 내용. (InfoMarker Content)
+            var contentString = [
+                '<div class="iw_inner">',
+                `   <h3>${hospitalName}</h3>`,
+                `   <p>${address}<br/>`,
+                `       tel : ${phoneNumber} <br> 분류 : ${emerType} <br> &gt;  소요시간 : ${time}분<br/>`,
+                '       <a href="http://www.seoul.go.kr" target="_blank">www.seoul.go.kr/</a>',
+                '   </p>',
+                '</div>'
+            ].join('');
+
+            // 목적지 정보창 수정해줘야함.
+            var infoWindow = new naver.maps.InfoWindow({
+                content: contentString,
+                maxWidth: 160,
+                backgroundColor: "#eee",
+                borderColor: "#e85d58",
+                borderWidth: 3.5,
+                anchorSize: new naver.maps.Size(30, 30),
+                anchorSkew: true,
+                anchorColor: "#eee",
+                pixelOffset: new naver.maps.Point(20, -20)
+            });
+
+            // 목적지 정보창 담기.
+            infoWindows.push(infoWindow);
+
+            var points = data.recommend[i].points;
+            var polyPoints = [];
+            for (let coords of points) {
+                polyPoints.push(new naver.maps.LatLng(coords[1], coords[0]));
+            }
+
+            var polyline = new naver.maps.Polyline({
+                map: map,
+                path: polyPoints
+            });
+
+
+            // 클릭하면 맞는 info 리턴.
+            function getClickHandler(seq) {
+                return function(e) {
+                    var marker = markerList[seq],
+                    infoWindow = infoWindows[seq];
+
+                    if (infoWindow.getMap()) {
+                        infoWindow.close();
+                    } else {
+                        infoWindow.open(mapList[seq], marker);
+                    }
+                }
+            }
+
+            // 함수 끝.
+            naver.maps.Event.addListener(markerList[i], 'click', getClickHandler(i));
+
+        }
+
+        //for (var i = 0; i < markerList.length; i++) {
+        //    naver.maps.Event.addListener(markerList[i], 'click', getClickHandler(i));
+        //}
+
+        document.getElementById('map1').style.display = '';
+    }) // window.onload END
+
+
+
+
+    function mapClick(selectedNum) {
+                for (var i = 1 ; i <= dataSize; i++) {
+                    // 선택이 된 친구는 활성화 나머지는 비활성화,
+                    var map = 'map' + i; // map0, map1, map2, ...
+                    const mapId = document.getElementById(map); // I
+                    if (i == selectedNum) {
+                        mapId.style.display = '';
+                        continue;
+                    }
+                    mapId.style.display = 'none';
+                }
+            }
+
+
+</script>
+
+<div th:replace="common/footer :: footer"></div>
+</body>
+</html>
