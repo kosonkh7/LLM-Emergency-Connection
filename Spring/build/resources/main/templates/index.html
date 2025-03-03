@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="common/header :: header"></div>
+<head>
+    <meta charset="UTF-8">
+    <title>응급 상황</title>
+    <style>
+        form {
+            min-width: 320px;
+            max-width: 500px;
+            margin: auto;
+            padding: 1rem;
+            text-align: center;
+            display: block;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+
+        .row-inline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .label {
+            flex: 1; /* Label은 적절히 축소 */
+            text-align: left;
+            white-space: nowrap; /* 줄바꿈 방지 */
+        }
+
+        .form-select {
+            flex: 1; /* Select는 줄어든 공간을 차지 */
+            max-width: 150px; /* Select 너비 제한 */
+        }
+
+        .text-area {
+            width: 100%;
+            resize: none;
+            box-sizing: border-box;
+            aspect-ratio: 4 / 1;
+        }
+
+        .submit {
+            width: 100%;
+            aspect-ratio: 8 / 1;
+        }
+
+        #loading {
+            position: fixed;
+            z-index: 9999;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .spinner {
+            border: 6px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 6px solid #3498db;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #recordButton{
+                width: 100%;
+                aspect-ratio: 2/1;
+                position: relative;
+                z-index: 10;
+                font-size: 36px;
+                cursor: pointer;
+                background: #ff3f4f;
+                justify-content: center;
+                align-items: center;
+                display: flex;
+                color: #ffffff;
+                border-radius: 32px;
+            }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+<div id="loading" style="display: none;">
+    <div class="spinner"></div>
+    <p>응답을 기다리는 중...</p>
+</div>
+<form id="form" action="recommend_hospital" enctype="application/x-www-form-urlencoded">
+    <!-- Inline Row -->
+    <div class="row-inline">
+        <input hidden id="latitude" type="text" class="hidden form-control latitude" name="latitude" value="">
+        <input hidden id="longitude" type="text" class="hidden form-control longitude" name="longitude" value="">
+        <label for="select1" class="label"><h2 id="comment">응급 상황 입력</h2></label>
+        <select id="select1" class="form-select" aria-label="Default select example" name="optionNum">
+        </select>
+    </div>
+
+    <!-- Text Area -->
+    <textarea id="text-area" class="text-area" name="text" rows="7" placeholder="상황을 입력해주세요"></textarea>
+
+    <!-- Submit Button -->
+    <div id="submitDiv" class="submit">
+        <input type="submit" id="submit" class="submit form-control" value="주변 응급실 찾기">
+    </div>
+</form>
+
+<script>
+    $(function () {
+        // Populate the dropdown with options
+        let options = '';
+        for (let i = 1; i <= 20; i++) {
+            options += `<option id="option_${i}" value="${i}">${i}</option>`;
+        }
+        $('#select1').append(options);
+
+        $('#select1').val('3');
+
+        // Change event handler
+        $('#select1').on('change', function () {
+            const selectedValue = $(this).val();
+            $('#select').val(selectedValue);
+            console.log(`선택된 값: ${selectedValue}`);
+            // 추가 동작을 여기에 정의
+        });
+    });
+</script>
+<script>
+    const recordButton = document.createElement('div');
+
+
+    let isRecording = false;
+    let mediaRecorder;
+    let audioChunks = [];
+
+    // 녹음 기능 추가
+    function recordingClickEvent(){
+        event.preventDefault();
+         if (MediaRecorder.isTypeSupported('audio/webm')) {
+          console.log('audio/webm is supported');
+        } else {
+          console.log('audio/webm is not supported');
+        }
+
+        if (MediaRecorder.isTypeSupported('audio/wav')) {
+          console.log('audio/wav is supported');
+        } else {
+          console.log('audio/wav is not supported');
+        }
+
+        if (MediaRecorder.isTypeSupported('audio/mp4')) {
+          console.log('audio/mp4 is supported');
+        } else {
+          console.log('audio/mp4 is not supported');
+        }
+
+        if (MediaRecorder.isTypeSupported('audio/wav')) {
+          console.log('audio/wav is supported');
+        } else {
+          console.log('audio/wav is not supported');
+        }
+
+        if (!isRecording){
+            navigator.mediaDevices.getUserMedia({audio: true})
+                .then(stream => {
+                    mediaRecorder = new MediaRecorder(stream, {mimeType: "audio/mp4"});
+                    mediaRecorder.start();
+                    mediaRecorder.ondataavailable = event => {
+                        audioChunks.push(event.data);
+                    };
+                    isRecording = true;
+                    recordButton.innerText = "녹음 중지";
+
+                    audioChunks = [];
+                });
+        } else {
+            mediaRecorder.stop();
+            mediaRecorder.onstop = () => {
+                const audioBlob = new Blob(audioChunks, {type: "audio/mp4"});
+                const file = new File([audioBlob], "recording.mp4", {type:"audio/mp4"});
+
+                navigator.geolocation.getCurrentPosition(position => {
+                  const lati = position.coords.latitude;
+                  const longi = position.coords.longitude;
+
+                  // 파일과 위도 경도를 Spring 서버로 전송
+                  sendRecording(file, lati, longi);
+                });
+            }
+
+            isRecording = false;
+            recordButton.innerText = "녹음 시작";
+        };
+    }
+
+    function isMobileDevice() {
+        return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    function addButtonBeforeInput() {
+        if (isMobileDevice()) {
+            $('#select1').css('display', 'none');
+            const inputField = document.getElementById('submit');
+            const comment = document.getElementById("comment");
+
+            comment.innerText = "버튼을 눌러 응급 상황을 말해주세요.";
+
+            // 버튼 요소 생성
+            recordButton.id = 'recordButton';
+            recordButton.setAttribute("type", "button");
+            recordButton.innerText = '녹음 시작';
+            recordButton.setAttribute("onclick", "recordingClickEvent()");
+
+            // input 앞에 버튼 추가
+            inputField.parentNode.insertBefore(recordButton, inputField);
+
+            inputField.style.display ='none';
+            document.getElementById("text-area").style.display ='none';
+
+
+
+        } else {
+            if (navigator.geolocation) {
+                const lati = ""
+                const longi = ""
+                navigator.geolocation.getCurrentPosition(position => {
+                  lati = position.coords.latitude;
+                  longi = position.coords.longitude;
+                });
+
+                const submit = document.querySelector(".submit");
+
+                submit.addEventListener("click", () => {
+                    //document.getElementById("latitude").value = 37.358827;
+                    //document.getElementById("longitude").value = 127.114919;
+
+
+                    document.getElementById("latitude").value = lati;
+                    document.getElementById("longitude").value = longi;
+                })
+
+            } else {
+                latitude = "", longitude = "";
+            }
+        }
+    }
+
+    window.onload = addButtonBeforeInput;
+
+<!--            recordButton.addEventListener("click", () => {-->
+<!--                recordingClickEvent();-->
+<!--            });-->
+
+    function sendRecording(file, latitude, longitude){
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append("latitude", latitude);
+        formData.append("longitude", longitude);
+
+        showLoading();
+
+        fetch("/recommend_hospital_with_record", {
+            method: "POST",
+            body: formData,
+        }).then(response => {
+            if (response.ok){
+                console.log("Recording sent successfully");
+
+                response.text().then(html => {
+                    // 'recommend_hospital_with_record' 페이지가 포함된 응답 처리
+                    document.open();
+                    document.write(html);  // 서버에서 반환한 HTML 페이지를 작성
+                    document.close();
+                });
+            } else {
+                console.log(response.status);
+                console.log(response.text);
+                console.error("Failed to send recording");
+            }
+        })
+        .finally(() => {
+            hideLoading();
+        });
+    }
+
+    function showLoading() {
+      document.getElementById('loading').style.display = 'flex';
+    }
+
+    function hideLoading() {
+      document.getElementById('loading').style.display = 'none';
+    }
+</script>
+<div th:replace="common/footer :: footer"></div>
+</body>
+</html>

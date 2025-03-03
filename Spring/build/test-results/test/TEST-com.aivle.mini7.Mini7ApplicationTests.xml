@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.aivle.mini7.Mini7ApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-23T15:17:50" hostname="DESKTOP-8NE89EL" time="0.888">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.aivle.mini7.Mini7ApplicationTests" time="0.888"/>
+  <system-out><![CDATA[00:17:39.078 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.aivle.mini7.Mini7ApplicationTests]: Mini7ApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+00:17:39.312 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.aivle.mini7.Mini7Application for test class com.aivle.mini7.Mini7ApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.5)
+
+2024-12-24T00:17:41.276+09:00  INFO 20472 --- [mini7] [    Test worker] com.aivle.mini7.Mini7ApplicationTests    : Starting Mini7ApplicationTests using Java 17.0.13 with PID 20472 (started by User in C:\Users\User\spring-example\aivle-mini7-springboot2)
+2024-12-24T00:17:41.280+09:00  INFO 20472 --- [mini7] [    Test worker] com.aivle.mini7.Mini7ApplicationTests    : No active profile set, falling back to 1 default profile: "default"
+2024-12-24T00:17:42.764+09:00  INFO 20472 --- [mini7] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-24T00:17:42.966+09:00  INFO 20472 --- [mini7] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 126 ms. Found 1 JPA repository interface.
+2024-12-24T00:17:43.363+09:00  INFO 20472 --- [mini7] [    Test worker] o.s.cloud.context.scope.GenericScope     : BeanFactory id=26f18af4-f89e-3a97-889f-91c8409ad040
+2024-12-24T00:17:43.930+09:00  INFO 20472 --- [mini7] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-24T00:17:44.070+09:00  INFO 20472 --- [mini7] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-12-24T00:17:44.142+09:00  INFO 20472 --- [mini7] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-24T00:17:44.810+09:00  INFO 20472 --- [mini7] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-24T00:17:44.875+09:00  INFO 20472 --- [mini7] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-24T00:17:45.250+09:00  INFO 20472 --- [mini7] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.sqlite.jdbc4.JDBC4Connection@fd4459b
+2024-12-24T00:17:45.253+09:00  INFO 20472 --- [mini7] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-24T00:17:46.698+09:00  INFO 20472 --- [mini7] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-24T00:17:46.703+09:00  INFO 20472 --- [mini7] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-24T00:17:47.354+09:00  WARN 20472 --- [mini7] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-24T00:17:47.911+09:00  INFO 20472 --- [mini7] [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2024-12-24T00:17:49.907+09:00  INFO 20472 --- [mini7] [    Test worker] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2024-12-24T00:17:50.006+09:00  INFO 20472 --- [mini7] [    Test worker] com.aivle.mini7.Mini7ApplicationTests    : Started Mini7ApplicationTests in 10.417 seconds (process running for 12.654)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
