@@ -1,4 +1,7 @@
 # LLM-Powered Automated Emergency Room Connection Service
+현재 비용 문제로 배포 일시 중지 상태입니다. \
+~~https://mini7-fastapi-aivle1265-fzcqaxa4e2azhsf0.koreacentral-01.azurewebsites.net~~
+
 본 서비스를 이용하기 위하여 별도의 API키를 요구합니다.
 - OPENAI API KEY
 - NAVER MAPs API KEY
