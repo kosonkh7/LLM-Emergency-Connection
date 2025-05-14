@@ -1,10 +1,31 @@
-# LLM-Powered Automated Emergency Room Connection Service
+# 🚑LLM-Powered Automated Emergency Room Connection Service
 현재 비용 문제로 배포 일시 중지 상태입니다. \
 ~~https://mini7-fastapi-aivle1265-fzcqaxa4e2azhsf0.koreacentral-01.azurewebsites.net~~
 
 본 서비스를 이용하기 위하여 별도의 API키를 요구합니다.
 - OPENAI API KEY
 - NAVER MAPs API KEY
+
+# 💻 활용 기술 스택
+
+### 🔧 Backend
+![Spring Boot](https://img.shields.io/badge/spring--boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+![FastAPI](https://img.shields.io/badge/fastapi-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+
+### 🗄️ Database
+![SQLite](https://img.shields.io/badge/sqlite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+
+### 🤖 AI & Modeling
+![Hugging Face](https://img.shields.io/badge/huggingface-FFD21F?style=for-the-badge&logo=huggingface&logoColor=black)
+![Transformers](https://img.shields.io/badge/transformers-FF6F61?style=for-the-badge&logo=huggingface&logoColor=black)
+![OpenAI](https://img.shields.io/badge/openai-412991?style=for-the-badge&logo=openai&logoColor=white)
+![Naver Maps API](https://img.shields.io/badge/Naver%20Maps%20API-03C75A?style=for-the-badge)
+![PyTorch](https://img.shields.io/badge/pytorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)
+
+### 🚀 Deployment
+![Docker](https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Azure](https://img.shields.io/badge/azure-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)
 
 # System Design
 * 전체 웹서비스가 아닌, LLM 기반 응급실 연계 서비스 구조 이미지.
