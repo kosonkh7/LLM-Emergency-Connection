@@ -28,7 +28,7 @@
 ![Azure](https://img.shields.io/badge/azure-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)
 
 # System Design
-* 전체 웹서비스가 아닌, LLM 기반 응급실 연계 서비스 구조 이미지.
+* **전체 웹서비스가 아닌, LLM 기반 응급실 연계 서비스 구조 이미지**.
 ![image](https://github.com/user-attachments/assets/b156c5fc-d682-46e4-86be-f4c33fec22c5)
 
 ### 0. 입력 (응급 요청)
